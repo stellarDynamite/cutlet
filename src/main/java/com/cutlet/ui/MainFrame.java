@@ -1,14 +1,17 @@
 package com.cutlet.ui;
+
 import com.cutlet.ffmpeg.FFmpegUtil;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.net.URL;
 
 public class MainFrame extends JFrame {
 
     public MainFrame() {
 
-        setTitle("Cutlet ✂");
+        setTitle("Cutlet");
         setSize(1200, 760);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -19,40 +22,75 @@ public class MainFrame extends JFrame {
         // ================= HEADER =================
 
         GradientPanel header = new GradientPanel(
-                new Color(213, 205, 255),
-                new Color(251, 228, 239));
+                new Color(213,205,255),
+                new Color(251,228,239));
 
-        header.setPreferredSize(new Dimension(0, 90));
+        header.setPreferredSize(new Dimension(0,90));
         header.setLayout(new BorderLayout());
-        header.setBorder(new EmptyBorder(18, 30, 18, 30));
+        header.setBorder(new EmptyBorder(18,30,18,30));
 
         JPanel titlePanel = new JPanel();
         titlePanel.setOpaque(false);
         titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
 
-        JLabel title = new JLabel("✂ Cutlet");
+        titlePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel title = new JLabel("Cutlet");
         title.setFont(new Font("SansSerif", Font.BOLD, 28));
         title.setForeground(Theme.TEXT);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel subtitle = new JLabel("Cute FFmpeg Media Studio");
-        subtitle.setForeground(Theme.SUBTEXT);
+        JLabel subtitle =
+                new JLabel("Letting Java do the cutting.");
+
+        subtitle.setFont(
+                new Font("SansSerif",
+                        Font.ITALIC,
+                        14));
+
+        subtitle.setForeground(
+                new Color(126,112,165));
+
+        subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         titlePanel.add(title);
         titlePanel.add(subtitle);
 
-        header.add(titlePanel, BorderLayout.WEST);
+        header.add(titlePanel, BorderLayout.CENTER);
 
         // ================= SIDEBAR =================
 
         JPanel sidebar = new JPanel();
-        sidebar.setPreferredSize(new Dimension(220, 0));
-        sidebar.setBackground(new Color(230, 226, 255));
+        sidebar.setPreferredSize(new Dimension(220,0));
+        sidebar.setBackground(new Color(230,226,255));
         sidebar.setLayout(new BorderLayout());
 
-        JLabel cat = new JLabel("🐈", SwingConstants.CENTER);
-        cat.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 80));
+        URL url =
+                getClass().getResource("/images/banner.jpg");
 
-        sidebar.add(cat, BorderLayout.CENTER);
+        ImageIcon icon =
+                new ImageIcon(url);
+
+        Image scaled =
+                icon.getImage().getScaledInstance(
+                        170,
+                        300,
+                        Image.SCALE_SMOOTH);
+
+        JLabel artwork =
+                new JLabel(new ImageIcon(scaled));
+
+        artwork.setHorizontalAlignment(
+                SwingConstants.CENTER);
+
+        JPanel holder =
+                new JPanel(new GridBagLayout());
+
+        holder.setOpaque(false);
+
+        holder.add(artwork);
+
+        sidebar.add(holder, BorderLayout.CENTER);
 
         // ================= CONTENT =================
 
@@ -60,114 +98,233 @@ public class MainFrame extends JFrame {
         content.setBackground(Theme.BACKGROUND);
         content.setBorder(new EmptyBorder(25,25,25,25));
         content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
+// ================= INPUT CARD =================
 
-        RoundedPanel inputCard = new RoundedPanel();
+RoundedPanel inputCard = new RoundedPanel();
 
-        inputCard.setPreferredSize(new Dimension(700,120));
-        inputCard.setMaximumSize(new Dimension(Integer.MAX_VALUE,120));
+inputCard.setPreferredSize(new Dimension(700,120));
+inputCard.setMaximumSize(new Dimension(Integer.MAX_VALUE,120));
 
-        inputCard.setLayout(new BorderLayout());
-        inputCard.setBorder(new EmptyBorder(20,20,20,20));
+inputCard.setLayout(new BorderLayout());
+inputCard.setBorder(new EmptyBorder(20,20,20,20));
 
-        JLabel inputLabel = new JLabel("Input File");
-        inputLabel.setFont(Theme.LABEL);
+JLabel inputLabel = new JLabel("Input File");
+inputLabel.setFont(Theme.LABEL);
 
-        JPanel row = new JPanel(new BorderLayout(10,0));
-        row.setOpaque(false);
+JPanel row = new JPanel(new BorderLayout(10,0));
+row.setOpaque(false);
 
-        JTextField input = new JTextField();
-        JButton browse = new JButton("Browse");
+JTextField input = new JTextField();
 
-        browse.addActionListener(e -> {
+JButton browse = new JButton("Browse");
+
+browse.addActionListener(e -> {
 
     JFileChooser chooser = new JFileChooser();
 
-    if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+    if (chooser.showOpenDialog(this)
+            == JFileChooser.APPROVE_OPTION){
+
         input.setText(
-                chooser.getSelectedFile().getAbsolutePath()
-        );
+                chooser.getSelectedFile()
+                        .getAbsolutePath());
+
     }
 
 });
 
-        row.add(input,BorderLayout.CENTER);
-        row.add(browse,BorderLayout.EAST);
+row.add(input,BorderLayout.CENTER);
+row.add(browse,BorderLayout.EAST);
 
-        inputCard.add(inputLabel,BorderLayout.NORTH);
-        inputCard.add(row,BorderLayout.CENTER);
+inputCard.add(inputLabel,BorderLayout.NORTH);
+inputCard.add(row,BorderLayout.CENTER);
 
-        content.add(inputCard);
+content.add(inputCard);
 
-        content.add(Box.createVerticalStrut(20));
+content.add(Box.createVerticalStrut(20));
 
-        RoundedPanel outputCard = new RoundedPanel();
 
-        outputCard.setPreferredSize(new Dimension(700,120));
-        outputCard.setMaximumSize(new Dimension(Integer.MAX_VALUE,120));
+// ================= OUTPUT CARD =================
 
-        outputCard.setLayout(new BorderLayout());
-        outputCard.setBorder(new EmptyBorder(20,20,20,20));
+RoundedPanel outputCard = new RoundedPanel();
 
-        JLabel outputLabel = new JLabel("Output File");
-        outputLabel.setFont(Theme.LABEL);
+outputCard.setPreferredSize(new Dimension(700,120));
+outputCard.setMaximumSize(new Dimension(Integer.MAX_VALUE,120));
 
-        JPanel row2 = new JPanel(new BorderLayout(10,0));
-        row2.setOpaque(false);
+outputCard.setLayout(new BorderLayout());
+outputCard.setBorder(new EmptyBorder(20,20,20,20));
 
-        JTextField output = new JTextField();
-        JButton browse2 = new JButton("Browse");
+JLabel outputLabel =
+        new JLabel("Output File Name");
 
-        row2.add(output,BorderLayout.CENTER);
-        row2.add(browse2,BorderLayout.EAST);
+outputLabel.setFont(Theme.LABEL);
 
-        outputCard.add(outputLabel,BorderLayout.NORTH);
-        outputCard.add(row2,BorderLayout.CENTER);
+JPanel row2 =
+        new JPanel(new BorderLayout(10,0));
 
-        content.add(outputCard);
+row2.setOpaque(false);
 
-        content.add(Box.createVerticalStrut(20));
+JTextField output =
+        new JTextField("output");
 
-        RoundedPanel operation = new RoundedPanel();
+row2.add(output,BorderLayout.CENTER);
 
-        operation.setMaximumSize(new Dimension(Integer.MAX_VALUE,180));
+outputCard.add(outputLabel,BorderLayout.NORTH);
+outputCard.add(row2,BorderLayout.CENTER);
 
-        operation.setLayout(new BoxLayout(operation,BoxLayout.Y_AXIS));
+content.add(outputCard);
 
-        operation.setBorder(new EmptyBorder(20,20,20,20));
+content.add(Box.createVerticalStrut(20));
 
-        JLabel opLabel = new JLabel("Operation");
-        opLabel.setFont(Theme.LABEL);
 
-        String[] options = {
-                "Convert",
-                "Extract Audio",
-                "Trim Video",
-                "Resize Video"
-        };
+// ================= OPERATION CARD =================
 
-        JComboBox<String> combo =
-                new JComboBox<>(options);
+RoundedPanel operation =
+        new RoundedPanel();
 
-        combo.setMaximumSize(
-                new Dimension(Integer.MAX_VALUE,35));
+operation.setMaximumSize(
+        new Dimension(Integer.MAX_VALUE,220));
 
-        JButton execute =
-                new JButton("Execute");
+operation.setLayout(
+        new BoxLayout(
+                operation,
+                BoxLayout.Y_AXIS));
 
-        execute.setAlignmentX(Component.CENTER_ALIGNMENT);
+operation.setBorder(
+        new EmptyBorder(
+                20,20,20,20));
 
-        execute.addActionListener(e -> {
+JLabel opLabel =
+        new JLabel("Operation");
 
-    try {
+opLabel.setFont(Theme.LABEL);
 
-        FFmpegUtil.extractAudio(
-                input.getText(),
-                output.getText()
-        );
+String[] options = {
+
+        "Convert",
+        "Extract Audio"
+
+};
+
+JComboBox<String> combo =
+        new JComboBox<>(options);
+
+combo.setMaximumSize(
+        new Dimension(
+                Integer.MAX_VALUE,
+                38));
+
+operation.add(opLabel);
+
+operation.add(
+        Box.createVerticalStrut(10));
+
+operation.add(combo);
+
+operation.add(
+        Box.createVerticalStrut(15));
+
+JLabel helper =
+        new JLabel(
+                "<html>" +
+                        "<b>Supported</b><br>" +
+                        "• Video → Video<br>" +
+                        "• Audio → Audio<br>" +
+                        "• Video → Audio" +
+                        "</html>");
+
+helper.setForeground(
+        Theme.SUBTEXT);
+
+operation.add(helper);
+
+operation.add(
+        Box.createVerticalStrut(20));
+
+JButton execute =
+        new JButton("Convert");
+
+execute.setAlignmentX(
+        Component.CENTER_ALIGNMENT);
+
+combo.addActionListener(e->{
+
+    if(combo.getSelectedIndex()==0){
+
+        execute.setText("Convert");
+
+    }else{
+
+        execute.setText("Extract Audio");
+
+    }
+
+});
+
+operation.add(execute);
+execute.addActionListener(e -> {
+
+    if (input.getText().isBlank()) {
 
         JOptionPane.showMessageDialog(
                 this,
-                "Audio extracted successfully!"
+                "Please choose an input file.",
+                "Missing Input",
+                JOptionPane.WARNING_MESSAGE);
+
+        return;
+    }
+
+    if (output.getText().isBlank()) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Please enter an output filename.",
+                "Missing Output",
+                JOptionPane.WARNING_MESSAGE);
+
+        return;
+    }
+
+    try {
+
+        String out = output.getText().trim();
+
+        if(combo.getSelectedIndex() == 0){
+
+    if(!out.contains(".")){
+
+        out += ".mp4";
+
+    }
+
+}
+
+        if (combo.getSelectedIndex() == 0) {
+
+            FFmpegUtil.convert(
+                    input.getText(),
+                    out
+            );
+
+        } else {
+
+            if (!out.toLowerCase().endsWith(".mp3")) {
+                out += ".mp3";
+            }
+
+            FFmpegUtil.extractAudio(
+                    input.getText(),
+                    out
+            );
+
+        }
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Done!\n\nSaved as:\n" + out,
+                "Success",
+                JOptionPane.INFORMATION_MESSAGE
         );
 
     } catch (Exception ex) {
@@ -183,13 +340,7 @@ public class MainFrame extends JFrame {
 
 });
 
-        operation.add(opLabel);
-        operation.add(Box.createVerticalStrut(10));
-        operation.add(combo);
-        operation.add(Box.createVerticalStrut(20));
-        operation.add(execute);
-
-        content.add(operation);
+content.add(operation);
 
         root.add(header,BorderLayout.NORTH);
         root.add(sidebar,BorderLayout.WEST);

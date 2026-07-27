@@ -5,15 +5,9 @@ import java.io.InputStreamReader;
 
 public class FFmpegUtil {
 
-    public static void extractAudio(String input, String output) throws Exception {
+    private static void runFFmpeg(String... command) throws Exception {
 
-        ProcessBuilder pb = new ProcessBuilder(
-                "ffmpeg",
-                "-y",
-                "-i",
-                input,
-                output
-        );
+        ProcessBuilder pb = new ProcessBuilder(command);
 
         pb.redirectErrorStream(true);
 
@@ -36,6 +30,31 @@ public class FFmpegUtil {
                     "FFmpeg failed with exit code " + exitCode
             );
         }
+    }
+
+    public static void convert(String input, String output) throws Exception {
+
+        runFFmpeg(
+                "ffmpeg",
+                "-y",
+                "-i",
+                input,
+                output
+        );
+
+    }
+
+    public static void extractAudio(String input, String output) throws Exception {
+
+        runFFmpeg(
+                "ffmpeg",
+                "-y",
+                "-i",
+                input,
+                "-vn",
+                output
+        );
+
     }
 
 }
