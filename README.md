@@ -36,11 +36,9 @@ Rather than implementing media processing from scratch, the application communic
 
 ## 📸 Screenshots
 
-> Replace these placeholders with your screenshots.
+<img width="1194" height="672" alt="Screenshot 2026-07-28 at 3 18 49 AM" src="https://github.com/user-attachments/assets/0ba22f77-967c-4b11-879f-0d5a3868089e" />
 
-| Home |
-|------|
-| ![](assets/screenshots/home.png) |
+<img width="280" height="195" alt="Screenshot 2026-07-28 at 3 20 27 AM" src="https://github.com/user-attachments/assets/7c2cbb19-1c19-4e33-b13f-79fdecebca75" />
 
 ---
 
