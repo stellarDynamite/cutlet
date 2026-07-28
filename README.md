@@ -176,12 +176,6 @@ Included:
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License.
-
----
-
 <div align="center">
 
 Made with ☕, Java and a lot of pastel.
